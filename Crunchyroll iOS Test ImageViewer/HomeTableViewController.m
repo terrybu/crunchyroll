@@ -28,17 +28,15 @@
     httpManager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/plain"];
     
     [httpManager GET:@"http://dl.dropbox.com/u/89445730/images.json" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
         NSArray *imagesArray = responseObject;
         NSLog(@"%lu images are in the images array", (unsigned long)imagesArray.count);
-        
         //loop through the images Array and look at every image
         for (int i=0; i < imagesArray.count; i++) {
             NSDictionary *imageDictionary = imagesArray[i];
             Image *image = [[Image alloc]init];
-            image.imageURL = imageDictionary[@"original"];
-            image.thumbnailURL = imageDictionary[@"thumb"];
-            image.caption = imageDictionary[@"caption"];
+            image.imageURL = [self returnStringIfNotNull:@"original" NSDictionary:imageDictionary];
+            image.thumbnailURL = [self returnStringIfNotNull:@"thumb" NSDictionary:imageDictionary];
+            image.caption = [self returnStringIfNotNull:@"caption" NSDictionary:imageDictionary];
             [self.imagesArray addObject:image];
         }
         
@@ -47,9 +45,18 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
     }];
-
 }
 
+- (NSString *) returnStringIfNotNull: (NSString *) key NSDictionary: (NSDictionary *) imageDictionary{
+    if ([imageDictionary[key] isKindOfClass:[NSNull class]])
+        return nil;
+    else
+        return (NSString *) imageDictionary[key];
+
+    return nil;
+}
+
+//lazy instantiation
 - (NSMutableArray *) imagesArray {
     if (!_imagesArray) {
         _imagesArray = [[NSMutableArray alloc]init];
@@ -74,17 +81,26 @@
     return self.imagesArray.count;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 60;
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *cellIdentifier = @"Cell";
     
     CustomTableViewCell *cell;
-    cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-    
+    cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     if (!cell) {
-        cell = CustomTable
+        cell = [[CustomTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
     // Configure the cell...
+
+    Image *image = self.imagesArray[indexPath.row];
+    if (image.caption)
+        cell.captionLabel.text = image.caption;
+    if (image.thumbnailURL)
+        cell.thumbnailImageView.image = [UIImage imageNamed:@"placeHolder"];
     
     return cell;
 }

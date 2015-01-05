@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nEc-K0-BDy">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Crunchyroll Images Tableview-->
@@ -18,22 +19,33 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qDS-Ad-NIY" id="lSO-gN-Bjt">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9SJ-lS-O97" userLabel="thumbnailImageView">
-                                            <rect key="frame" x="8" y="3" width="50" height="50"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9SJ-lS-O97" userLabel="thumbnailImageView">
+                                            <rect key="frame" x="8" y="4" width="50" height="50"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="50" id="ceX-RF-6lY"/>
+                                                <constraint firstAttribute="width" constant="50" id="wHc-nn-l9N"/>
+                                            </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yd4-eg-LQt" userLabel="captionLabel">
-                                            <rect key="frame" x="66" y="17" width="500" height="21"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yd4-eg-LQt" userLabel="captionLabel">
+                                            <rect key="frame" x="66" y="18" width="500" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailingMargin" secondItem="yd4-eg-LQt" secondAttribute="trailing" constant="26" id="Mi8-ua-IPp"/>
+                                        <constraint firstItem="9SJ-lS-O97" firstAttribute="centerY" secondItem="lSO-gN-Bjt" secondAttribute="centerY" id="OK4-lj-ZpO"/>
+                                        <constraint firstItem="9SJ-lS-O97" firstAttribute="leading" secondItem="lSO-gN-Bjt" secondAttribute="leadingMargin" id="V6q-eL-csQ"/>
+                                        <constraint firstItem="yd4-eg-LQt" firstAttribute="leading" secondItem="9SJ-lS-O97" secondAttribute="trailing" constant="8" id="Vmo-D8-FrQ"/>
+                                        <constraint firstAttribute="centerX" secondItem="yd4-eg-LQt" secondAttribute="centerX" constant="-16" id="XgP-Qk-nG3"/>
+                                        <constraint firstItem="yd4-eg-LQt" firstAttribute="top" secondItem="lSO-gN-Bjt" secondAttribute="topMargin" constant="10" id="Ybk-QW-gWx"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
                                     <outlet property="captionLabel" destination="yd4-eg-LQt" id="8cO-Vm-cBP"/>
                                     <outlet property="thumbnailImageView" destination="9SJ-lS-O97" id="WbJ-yu-sZC"/>
-                                    <outlet property="thumbnailImageview" destination="9SJ-lS-O97" id="wQO-sh-h7R"/>
                                     <segue destination="lxd-K0-wu6" kind="show" id="m9x-dT-LbY"/>
                                 </connections>
                             </tableViewCell>
@@ -47,7 +59,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VXe-Ta-hXN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="607" y="350"/>
+            <point key="canvasLocation" x="607" y="349"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="zu4-h2-KRu">
