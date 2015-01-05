@@ -14,6 +14,7 @@
 @interface HomeTableViewController ()
 
 @property (strong, nonatomic) NSMutableArray *imagesArray;
+@property (strong, nonatomic) NSCache * imageCache;
 
 @end
 
@@ -21,6 +22,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.imageCache = [[NSCache alloc] init];
+    self.imageCache.countLimit = 50; //maximum # of objects our cache should hold
     
     AFHTTPRequestOperationManager *httpManager = [AFHTTPRequestOperationManager manager];
     
@@ -96,48 +99,51 @@
     
     // Configure the cell...
 
-    Image *image = self.imagesArray[indexPath.row];
-    if (image.caption)
-        cell.captionLabel.text = image.caption;
-    if (image.thumbnailURL)
+    Image *imageObject = self.imagesArray[indexPath.row];
+    if (imageObject.caption)
+        cell.captionLabel.text = imageObject.caption;
+
+    if (imageObject.thumbnailURL) {
         cell.thumbnailImageView.image = [UIImage imageNamed:@"placeHolder"];
-    
+        //we are going to check if we already had pushed this image into Cache
+        UIImage *imageFromCache = [self.imageCache objectForKey:imageObject.thumbnailURL];
+        if (imageFromCache) {
+            //if we did, then we just get from cache and display
+            cell.thumbnailImageView.image = imageFromCache;
+        }
+        else {
+            //if we don't have anything in the cache for this key, that means we gotta get the imageData from URL, create image and push it into Cache
+            //this is time-intensive so we are going to download image data in a background thread  using GCD
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                NSError *error;
+                NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageObject.thumbnailURL] options:nil error:&error];
+                if (error) {
+                    NSLog(@"Error: %@", error);
+                }
+                UIImage *image = nil;
+                if (imageData) {
+                    image = [UIImage imageWithData:imageData];
+                }
+                if (image) {
+                    //now we have a new image. we push this into the cache
+                    [self.imageCache setObject:image forKey:imageObject.thumbnailURL];
+                    //now we are done setting the image in the cache.
+                    //But we still need to display this newly made image into the imageview of the cell
+                    //we have to make UI changes in the main thread. Go back to main thread
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        CustomTableViewCell *cell = (CustomTableViewCell *) [self.tableView cellForRowAtIndexPath:indexPath];
+                        cell.thumbnailImageView.image = image;
+                    });
+                }
+            });
+        }
+    }
+    NSLog(imageObject.imageURL);
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 /*
 #pragma mark - Navigation
