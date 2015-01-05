@@ -53,11 +53,17 @@
 - (NSString *) returnStringIfNotNull: (NSString *) key NSDictionary: (NSDictionary *) imageDictionary{
     if ([imageDictionary[key] isKindOfClass:[NSNull class]])
         return nil;
-    else
-        return (NSString *) imageDictionary[key];
-
+    else {
+        NSString* url = imageDictionary[key];
+        return [self returnCorrectParsedURLWithoutLLN:url];
+    }
     return nil;
 }
+
+- (NSString *) returnCorrectParsedURLWithoutLLN: (NSString *) url {
+    return [url stringByReplacingOccurrencesOfString:@"lln." withString:@""];
+}
+
 
 //lazy instantiation
 - (NSMutableArray *) imagesArray {
@@ -139,7 +145,6 @@
             });
         }
     }
-    NSLog(imageObject.imageURL);
     return cell;
 }
 
