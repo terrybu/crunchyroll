@@ -10,6 +10,7 @@
 #import "CustomTableViewCell.h"
 #import <AFNetworking.h>
 #import "Image.h"
+#import "ChildViewController.h"
 
 @interface HomeTableViewController ()
 
@@ -123,7 +124,7 @@
             
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                 NSError *error;
-                NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageObject.thumbnailURL] options:nil error:&error];
+                NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageObject.thumbnailURL] options:NSDataReadingMappedIfSafe error:&error];
                 if (error) {
                     NSLog(@"Error: %@", error);
                 }
@@ -150,14 +151,22 @@
 
 
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"imageControllerSegue"]) {
+        
+        // Get destination view
+        ChildViewController *cvc = [segue destinationViewController];
+        NSIndexPath *path = [self.tableView indexPathForSelectedRow];
+        Image *selectedImageObject = self.imagesArray[path.row];
+        cvc.image = selectedImageObject;
+    }
 }
-*/
+
 
 @end
