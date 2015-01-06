@@ -8,12 +8,12 @@
 
 #import "ChildViewController.h"
 
-#define navbarYOffset 50
+#define navbarYOffset 40
 
 @interface ChildViewController () {
     
-    UIActivityIndicatorView *activityIndicator;
     UIImageView *imageView;
+    UIActivityIndicatorView *activityIndicator;
 }
 
 @end
@@ -22,12 +22,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSLog(@"%@", self.image.imageURL);
+    
+    activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    activityIndicator.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2 - navbarYOffset);
+    [activityIndicator startAnimating];
+    [self.view addSubview:activityIndicator];
     
     imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"placeHolder"]];
     imageView.contentMode = UIViewContentModeCenter;
     [imageView sizeToFit];
     self.scrollView.contentSize = imageView.bounds.size;
-    imageView.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2);
+    imageView.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2 - navbarYOffset);
     [self.scrollView addSubview:imageView];
     
     //add tap gesture for toggling nav
@@ -54,8 +60,7 @@
 }
 
 - (void) downloadAndShowImageAsynchronously {
-    [self showActivityIndicatorUntilImageShowComplete];
-
+    
     if (self.image.imageURL) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSError *error;
@@ -63,6 +68,7 @@
             if (error) {
                 NSLog(@"Error: %@", error);
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    [activityIndicator stopAnimating];
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Image Downloading Error"
                                                                     message:@"No image could be downloaded from the URL ... Sorry!"
                                                                    delegate:nil
@@ -79,25 +85,35 @@
             if (image) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     imageView.image = image;
-                    self.scrollView.contentSize = image.size;
-                    imageView.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2-navbarYOffset);
-                    NSLog(@"scrollView contentsize width %f height %f", self.scrollView.contentSize.width, self.scrollView.contentSize.height);
-                    NSLog(@"scrollView frame width %f height %f", self.scrollView.frame.size.width, self.scrollView.frame.size.height);
-                    NSLog(@"imageView x: %f y: %f", imageView.frame.origin.x, imageView.frame.origin.y);
-                    NSLog(@"*************************");
                     [activityIndicator stopAnimating];
+                    imageView.contentMode = UIViewContentModeCenter;
+                    [imageView sizeToFit];
+                    CGPoint midpointOfViewFrame = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2-navbarYOffset);
+                    imageView.center = midpointOfViewFrame;
+                    self.scrollView.contentSize = image.size;
+                    
+                    NSLog(@"*************************");
+                    NSLog(@"image size width: %f y: %f", image.size.width, image.size.height);
+                    NSLog(@"imageView x: %f y: %f width: %f height: %f", imageView.frame.origin.x, imageView.frame.origin.y, imageView.frame.size.width, imageView.frame.size.height);
+                    NSLog(@"scrollView contentsize width %f, height %f", self.scrollView.contentSize.width, self.scrollView.contentSize.height);
+                    NSLog(@"scrollView frame width %f height %f", self.scrollView.frame.size.width, self.scrollView.frame.size.height);
+                    
+                    if (image.size.width > self.view.frame.size.width) {
+                        //when we center an image to the midpoint of the superview,
+                        //small enough images will be perfectly centered to the frame.
+                        //however, when image width is greater than the frame width,
+                        //they will spill over to the left, and since contentSize starts from (0,0) towards the right,
+                        //user won't be able to scroll-over to the image spillage to the left
+                        //To remedy this, if we ever find an image-view spilling over, we are going to recenter it according to contentsize
+                        imageView.center = CGPointMake(self.scrollView.contentSize.width/2, self.scrollView.contentSize.height/2);
+                    }
+
                 });
             }
         });
     }
 }
 
-- (void) showActivityIndicatorUntilImageShowComplete {
-    activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    activityIndicator.center = CGPointMake(self.view.frame.size.width/2, self.navigationController.navigationBar.frame.origin.y + 30);
-    [activityIndicator startAnimating];
-    [self.view addSubview: activityIndicator];
-}
 
 - (void) goBackToParentTableView {
     [self.navigationController popViewControllerAnimated:YES];
