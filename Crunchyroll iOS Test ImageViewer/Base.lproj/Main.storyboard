@@ -73,20 +73,34 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="viA-g4-Yab">
-                                <rect key="frame" x="38" y="72" width="525" height="456"/>
-                            </imageView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F6t-zG-ic9">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="viA-g4-Yab">
+                                        <rect key="frame" x="20" y="20" width="560" height="496"/>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="viA-g4-Yab" secondAttribute="trailing" constant="20" id="5UU-AX-0Ia"/>
+                                    <constraint firstItem="viA-g4-Yab" firstAttribute="top" secondItem="F6t-zG-ic9" secondAttribute="top" constant="20" id="7OB-9p-Ydm"/>
+                                    <constraint firstItem="viA-g4-Yab" firstAttribute="leading" secondItem="F6t-zG-ic9" secondAttribute="leading" constant="20" id="G3g-3W-T76"/>
+                                    <constraint firstAttribute="bottom" secondItem="viA-g4-Yab" secondAttribute="bottom" constant="20" id="TKw-eh-p3j"/>
+                                    <constraint firstItem="viA-g4-Yab" firstAttribute="centerX" secondItem="F6t-zG-ic9" secondAttribute="centerX" id="bAW-ZF-rqe"/>
+                                    <constraint firstItem="viA-g4-Yab" firstAttribute="centerY" secondItem="F6t-zG-ic9" secondAttribute="centerY" id="jbD-6k-tlr"/>
+                                </constraints>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="viA-g4-Yab" firstAttribute="leading" secondItem="9IN-2B-dMc" secondAttribute="leadingMargin" constant="22" id="P6J-JQ-yvX"/>
-                            <constraint firstItem="viA-g4-Yab" firstAttribute="top" secondItem="BBN-11-JGa" secondAttribute="bottom" constant="8" symbolic="YES" id="ifQ-pN-f9L"/>
-                            <constraint firstItem="viA-g4-Yab" firstAttribute="centerY" secondItem="9IN-2B-dMc" secondAttribute="centerY" id="kqE-x9-aVB"/>
-                            <constraint firstItem="viA-g4-Yab" firstAttribute="centerX" secondItem="9IN-2B-dMc" secondAttribute="centerX" id="v09-RV-3lr"/>
+                            <constraint firstItem="F6t-zG-ic9" firstAttribute="top" secondItem="BBN-11-JGa" secondAttribute="bottom" id="eFe-jZ-ILK"/>
+                            <constraint firstItem="F6t-zG-ic9" firstAttribute="bottom" secondItem="ZAE-JX-RnB" secondAttribute="top" id="ldv-WC-6EV"/>
+                            <constraint firstItem="F6t-zG-ic9" firstAttribute="leading" secondItem="9IN-2B-dMc" secondAttribute="leading" id="tks-wW-NtW"/>
+                            <constraint firstAttribute="trailing" secondItem="F6t-zG-ic9" secondAttribute="trailing" id="ttg-vG-9x2"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="imageView" destination="viA-g4-Yab" id="qGg-hd-pEI"/>
+                        <outlet property="scrollView" destination="F6t-zG-ic9" id="UIe-OR-znF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HHC-yR-eSa" userLabel="First Responder" sceneMemberID="firstResponder"/>

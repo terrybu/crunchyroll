@@ -20,13 +20,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     //add tap gesture for toggling nav
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleNavigationBar)];
     [self.view addGestureRecognizer:tap];
     
     [self setUpBarButtonsForNav];
     [self downloadAndShowImageAsynchronously];
+    
     
 }
 
@@ -71,6 +72,7 @@
             if (image) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     self.imageView.image = image;
+                    self.scrollView.contentSize = self.imageView.frame.size;
                     [activityIndicator stopAnimating];
                 });
             }
