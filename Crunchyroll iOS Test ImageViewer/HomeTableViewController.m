@@ -10,7 +10,6 @@
 #import "CustomTableViewCell.h"
 #import <AFNetworking.h>
 #import "Image.h"
-#import "ChildViewController.h"
 
 @interface HomeTableViewController ()
 
@@ -164,7 +163,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-    if ([[segue identifier] isEqualToString:@"imageControllerSegue"]) {
+    if ([[segue identifier] isEqualToString:@"childViewControllerSegue"]) {
         
         // Get destination view
         ChildViewController *cvc = [segue destinationViewController];

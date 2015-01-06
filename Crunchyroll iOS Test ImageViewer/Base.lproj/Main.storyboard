@@ -46,7 +46,7 @@
                                 <connections>
                                     <outlet property="captionLabel" destination="yd4-eg-LQt" id="8cO-Vm-cBP"/>
                                     <outlet property="thumbnailImageView" destination="9SJ-lS-O97" id="WbJ-yu-sZC"/>
-                                    <segue destination="lxd-K0-wu6" kind="show" identifier="imageControllerSegue" id="m9x-dT-LbY"/>
+                                    <segue destination="lxd-K0-wu6" kind="show" identifier="childViewControllerSegue" id="m9x-dT-LbY"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -73,7 +73,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="viA-g4-Yab">
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="viA-g4-Yab">
                                 <rect key="frame" x="38" y="72" width="525" height="456"/>
                             </imageView>
                         </subviews>
