@@ -11,7 +11,11 @@
 #import <AFNetworking.h>
 #import "Image.h"
 
-@interface HomeTableViewController ()
+@interface HomeTableViewController () {
+    
+    UIActivityIndicatorView *activityIndicator;
+
+}
 
 @property (strong, nonatomic) NSMutableArray *imagesArray;
 @property (strong, nonatomic) NSCache * imageCache;
@@ -23,54 +27,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    AFHTTPRequestOperationManager *httpManager = [AFHTTPRequestOperationManager manager];
-    
-    //without setting acceptable content types, AFNetworking throws validation error ... "text/plain" needs to be set like below
-    httpManager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/plain"];
-    
-    [httpManager GET:@"http://dl.dropbox.com/u/89445730/images.json" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSArray *imagesArray = responseObject;
-        NSLog(@"%lu images are in the images array", (unsigned long)imagesArray.count);
-        //loop through the images Array and look at every image
-        for (int i=0; i < imagesArray.count; i++) {
-            NSDictionary *imageDictionary = imagesArray[i];
-            Image *image = [[Image alloc]init];
-            image.imageURL = [self returnStringIfNotNull:@"original" NSDictionary:imageDictionary];
-            image.thumbnailURL = [self returnStringIfNotNull:@"thumb" NSDictionary:imageDictionary];
-            image.caption = [self returnStringIfNotNull:@"caption" NSDictionary:imageDictionary];
-            [self.imagesArray addObject:image];
-        }
-        
-        [self.tableView reloadData];
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
-    }];
+    [self showActivityIndicatorUntilDownloadComplete];
+    self.networkManager = [[NetworkManager alloc]init];
+    [self.networkManager getImagesFromCrunchyrollWithDelegate: self];
 }
 
-- (NSString *) returnStringIfNotNull: (NSString *) key NSDictionary: (NSDictionary *) imageDictionary{
-    if ([imageDictionary[key] isKindOfClass:[NSNull class]])
-        return nil;
-    else {
-        NSString* url = imageDictionary[key];
-        return [self returnCorrectParsedURLWithoutLLN:url];
-    }
-    return nil;
+- (void) showActivityIndicatorUntilDownloadComplete {
+    activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    activityIndicator.center = CGPointMake(self.view.frame.size.width/2, self.navigationController.navigationBar.frame.origin.y + 10);
+    [activityIndicator startAnimating];
+    [self.view addSubview: activityIndicator];
 }
 
-- (NSString *) returnCorrectParsedURLWithoutLLN: (NSString *) url {
-    return [url stringByReplacingOccurrencesOfString:@"lln." withString:@""];
+- (void) didFinishDownloadingImagesFromCrunchyroll {
+    self.imagesArray = self.networkManager.imagesArray;
+    [self.tableView reloadData];
+    [activityIndicator stopAnimating];
 }
 
 
 //lazy instantiation
-- (NSMutableArray *) imagesArray {
-    if (!_imagesArray) {
-        _imagesArray = [[NSMutableArray alloc]init];
-    }
-    return _imagesArray;
-}
-
 - (NSCache *) imageCache {
     if (!_imageCache)
         _imageCache = [[NSCache alloc]init];

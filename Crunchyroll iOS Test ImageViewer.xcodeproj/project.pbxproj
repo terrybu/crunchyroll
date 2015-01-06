@@ -13,6 +13,7 @@
 		AA40DF3B1A5B3D4F002FB6AD /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = AA40DF3A1A5B3D4F002FB6AD /* Image.m */; };
 		AA40DF3D1A5B43AF002FB6AD /* placeHolder.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AA40DF3C1A5B43AF002FB6AD /* placeHolder.jpg */; };
 		AA40DF431A5B5973002FB6AD /* ChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA40DF421A5B5973002FB6AD /* ChildViewController.m */; };
+		AAD923861A5C40470028A302 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD923851A5C40470028A302 /* NetworkManager.m */; };
 		AAF3EE621A5B317100892012 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF3EE611A5B317100892012 /* main.m */; };
 		AAF3EE651A5B317100892012 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF3EE641A5B317100892012 /* AppDelegate.m */; };
 		AAF3EE6B1A5B317100892012 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAF3EE691A5B317100892012 /* Main.storyboard */; };
@@ -43,6 +44,8 @@
 		AA40DF3C1A5B43AF002FB6AD /* placeHolder.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = placeHolder.jpg; sourceTree = "<group>"; };
 		AA40DF411A5B5973002FB6AD /* ChildViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildViewController.h; sourceTree = "<group>"; };
 		AA40DF421A5B5973002FB6AD /* ChildViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChildViewController.m; sourceTree = "<group>"; };
+		AAD923841A5C40470028A302 /* NetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
+		AAD923851A5C40470028A302 /* NetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
 		AAF3EE5C1A5B317100892012 /* Crunchyroll iOS Test ImageViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Crunchyroll iOS Test ImageViewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAF3EE601A5B317100892012 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAF3EE611A5B317100892012 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -114,6 +117,8 @@
 				AA40DF341A5B36C3002FB6AD /* HomeTableViewController.m */,
 				AA40DF411A5B5973002FB6AD /* ChildViewController.h */,
 				AA40DF421A5B5973002FB6AD /* ChildViewController.m */,
+				AAD923841A5C40470028A302 /* NetworkManager.h */,
+				AAD923851A5C40470028A302 /* NetworkManager.m */,
 				AAF3EE691A5B317100892012 /* Main.storyboard */,
 				AA40DF391A5B3D4F002FB6AD /* Image.h */,
 				AA40DF3A1A5B3D4F002FB6AD /* Image.m */,
@@ -298,6 +303,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAF3EE651A5B317100892012 /* AppDelegate.m in Sources */,
+				AAD923861A5C40470028A302 /* NetworkManager.m in Sources */,
 				AA40DF351A5B36C3002FB6AD /* HomeTableViewController.m in Sources */,
 				AA40DF381A5B3CD5002FB6AD /* CustomTableViewCell.m in Sources */,
 				AAF3EE621A5B317100892012 /* main.m in Sources */,
