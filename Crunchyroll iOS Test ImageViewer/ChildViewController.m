@@ -17,6 +17,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    UIBarButtonItem *leftMenuButton = [[UIBarButtonItem alloc]initWithTitle:@"Menu" style:UIBarButtonItemStylePlain target:self action:@selector(goBackToParentTableView)];
+    self.navigationItem.leftBarButtonItem = leftMenuButton;
+    
+    if (self.image.caption && ![self.image.caption isEqualToString:@""]) {
+        UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]initWithTitle:@"Info" style:UIBarButtonItemStylePlain target:self action:@selector(showCaption)];
+        self.navigationItem.rightBarButtonItem = rightBarButton;
+    }
+    
+    
     if (self.image.imageURL) {
         self.imageView.image = [UIImage imageNamed:@"placeHolder"];
         
@@ -41,7 +50,21 @@
 
 }
 
+- (void) goBackToParentTableView {
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    
+}
 
+- (void) showCaption {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Caption"
+                                                    message:self.image.caption
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    [alert show];
+
+}
 
 
 
