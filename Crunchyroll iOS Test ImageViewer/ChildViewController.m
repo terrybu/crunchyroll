@@ -8,12 +8,11 @@
 
 #import "ChildViewController.h"
 
-#define navbarYOffset 40
-
 @interface ChildViewController () {
     
     UIImageView *imageView;
     UIActivityIndicatorView *activityIndicator;
+    int navbarYOffset;
 }
 
 @end
@@ -22,7 +21,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"%@", self.image.imageURL);
+    
+    navbarYOffset = self.navigationController.navigationBar.frame.size.height;
     
     activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     activityIndicator.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2 - navbarYOffset);
@@ -85,35 +85,50 @@
             if (image) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     imageView.image = image;
-                    [activityIndicator stopAnimating];
                     imageView.contentMode = UIViewContentModeCenter;
                     [imageView sizeToFit];
-                    CGPoint midpointOfViewFrame = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2-navbarYOffset);
-                    imageView.center = midpointOfViewFrame;
-                    self.scrollView.contentSize = image.size;
-                    
-                    NSLog(@"*************************");
-                    NSLog(@"image size width: %f y: %f", image.size.width, image.size.height);
-                    NSLog(@"imageView x: %f y: %f width: %f height: %f", imageView.frame.origin.x, imageView.frame.origin.y, imageView.frame.size.width, imageView.frame.size.height);
-                    NSLog(@"scrollView contentsize width %f, height %f", self.scrollView.contentSize.width, self.scrollView.contentSize.height);
-                    NSLog(@"scrollView frame width %f height %f", self.scrollView.frame.size.width, self.scrollView.frame.size.height);
-                    
-                    if (image.size.width > self.view.frame.size.width) {
-                        //when we center an image to the midpoint of the superview,
-                        //small enough images will be perfectly centered to the frame.
-                        //however, when image width is greater than the frame width,
-                        //they will spill over to the left, and since contentSize starts from (0,0) towards the right,
-                        //user won't be able to scroll-over to the image spillage to the left
-                        //To remedy this, if we ever find an image-view spilling over, we are going to recenter it according to contentsize
-                        imageView.center = CGPointMake(self.scrollView.contentSize.width/2, self.scrollView.contentSize.height/2);
-                    }
-
+                    [self positionImage: image];
+                    [activityIndicator stopAnimating];
                 });
             }
         });
     }
 }
 
+- (void) positionImage: (UIImage *) image{
+    //Portrait Mode
+    CGPoint midpointOfViewFrame = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2-navbarYOffset);
+    imageView.center = midpointOfViewFrame;
+    self.scrollView.contentSize = image.size;
+    
+    NSLog(@"*************************");
+    NSLog(@"image size width: %f height: %f", image.size.width, image.size.height);
+    NSLog(@"imageView x: %f y: %f width: %f height: %f", imageView.frame.origin.x, imageView.frame.origin.y, imageView.frame.size.width, imageView.frame.size.height);
+    NSLog(@"scrollView contentsize width %f, height %f", self.scrollView.contentSize.width, self.scrollView.contentSize.height);
+    NSLog(@"scrollView frame width %f height %f", self.scrollView.frame.size.width, self.scrollView.frame.size.height);
+    
+    //when we center an image to the midpoint of the superview,
+    //small enough images will be perfectly centered to the frame.
+    //however, when image width is greater than the frame width,
+    //they will spill over to the left, and since contentSize starts from (0,0) towards the right,
+    //user won't be able to scroll-over to the image spillage to the left
+    //To remedy this, if we ever find an image-view spilling over, we are going to recenter it according to contentsize
+    if (image.size.width > self.view.frame.size.width && image.size.height > self.view.frame.size.height) {
+        //case of huge images with both width/height
+        imageView.center = CGPointMake(self.scrollView.contentSize.width/2, self.scrollView.contentSize.height/2);
+    }
+    else if (image.size.width > self.view.frame.size.width && image.size.height < self.view.frame.size.height) {
+        //case of wide images that are not that tall
+        imageView.center = CGPointMake(self.scrollView.contentSize.width/2, self.view.frame.size.height/2-navbarYOffset);
+    }
+    
+    //Landscape Mode
+    
+    //                    if (UIInterfaceOrientationIsLandscape(self.view.window.rootViewController.interfaceOrientation)) {
+    
+
+    
+}
 
 - (void) goBackToParentTableView {
     [self.navigationController popViewControllerAnimated:YES];
@@ -129,21 +144,32 @@
 
 }
 
+- (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    if (UIInterfaceOrientationIsLandscape(self.view.window.rootViewController.interfaceOrientation)) {
+        
+        NSLog(@"current frame width: %f, current frame height: %f", self.view.frame.size.width, self.view.frame.size.height);
+        navbarYOffset = self.navigationController.navigationBar.frame.size.height;
+        
+        CGPoint midpointOfViewFrame = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2 + self.navigationController.navigationBar.frame.size.height);
+        imageView.center = midpointOfViewFrame;
+        if (imageView.frame.size.height + navbarYOffset >= self.view.frame.size.height) {
+            NSLog(@"change content size height to accomodate the image height");
+            self.scrollView.contentSize = CGSizeMake(self.scrollView.contentSize.width, imageView.frame.size.height + navbarYOffset);
+        }
+    }
+    else if (UIInterfaceOrientationIsPortrait(self.view.window.rootViewController.interfaceOrientation)) {
+        CGPoint midpointOfViewFrame = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2 - navbarYOffset);
+        imageView.center = midpointOfViewFrame;
+    }
+}
+
+
+
 
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
