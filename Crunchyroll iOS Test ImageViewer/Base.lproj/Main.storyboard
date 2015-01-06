@@ -61,10 +61,10 @@
             </objects>
             <point key="canvasLocation" x="607" y="349"/>
         </scene>
-        <!--View Controller-->
+        <!--Child View Controller-->
         <scene sceneID="zu4-h2-KRu">
             <objects>
-                <viewController id="lxd-K0-wu6" sceneMemberID="viewController">
+                <viewController id="lxd-K0-wu6" customClass="ChildViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BBN-11-JGa"/>
                         <viewControllerLayoutGuide type="bottom" id="ZAE-JX-RnB"/>
@@ -73,12 +73,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="viA-g4-Yab">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="viA-g4-Yab">
+                                <rect key="frame" x="38" y="72" width="525" height="456"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="viA-g4-Yab" firstAttribute="leading" secondItem="9IN-2B-dMc" secondAttribute="leadingMargin" constant="22" id="P6J-JQ-yvX"/>
+                            <constraint firstItem="viA-g4-Yab" firstAttribute="top" secondItem="BBN-11-JGa" secondAttribute="bottom" constant="8" symbolic="YES" id="ifQ-pN-f9L"/>
+                            <constraint firstItem="viA-g4-Yab" firstAttribute="centerY" secondItem="9IN-2B-dMc" secondAttribute="centerY" id="kqE-x9-aVB"/>
+                            <constraint firstItem="viA-g4-Yab" firstAttribute="centerX" secondItem="9IN-2B-dMc" secondAttribute="centerX" id="v09-RV-3lr"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="imageView" destination="viA-g4-Yab" id="qGg-hd-pEI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HHC-yR-eSa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -12,6 +12,9 @@
 @interface ChildViewController : UIViewController
 
 @property (strong, nonatomic) Image *image;
+@property (strong, nonatomic) NSCache *imageCache;
+
+@property (strong, nonatomic) IBOutlet UIImageView *imageView;
 
 
 @end

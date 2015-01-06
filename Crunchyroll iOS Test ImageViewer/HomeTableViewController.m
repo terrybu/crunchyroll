@@ -23,8 +23,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.imageCache = [[NSCache alloc] init];
-    self.imageCache.countLimit = 50; //maximum # of objects our cache should hold
     
     AFHTTPRequestOperationManager *httpManager = [AFHTTPRequestOperationManager manager];
     
@@ -73,6 +71,14 @@
     }
     return _imagesArray;
 }
+
+- (NSCache *) imageCache {
+    if (!_imageCache)
+        _imageCache = [[NSCache alloc]init];
+        _imageCache.countLimit = 50; //maximum # of objects our cache should hold
+    return _imageCache;
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
