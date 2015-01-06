@@ -34,6 +34,14 @@
             NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.image.imageURL] options:NSDataReadingMappedIfSafe error:&error];
             if (error) {
                 NSLog(@"Error: %@", error);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Image Downloading Error"
+                                                                    message:@"No image could be downloaded from the URL ... Sorry!"
+                                                                   delegate:nil
+                                                          cancelButtonTitle:@"OK"
+                                                          otherButtonTitles:nil];
+                    [alert show];
+                });
                 return;
             }
             UIImage *image = nil;
