@@ -8,6 +8,8 @@
 
 #import "ChildViewController.h"
 
+#define navbarYOffset 50
+
 @interface ChildViewController () {
     
     UIActivityIndicatorView *activityIndicator;
@@ -20,6 +22,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"placeHolder"]];
+    imageView.contentMode = UIViewContentModeCenter;
+    [imageView sizeToFit];
+    self.scrollView.contentSize = imageView.bounds.size;
+    imageView.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2);
+    [self.scrollView addSubview:imageView];
     
     //add tap gesture for toggling nav
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleNavigationBar)];
@@ -48,7 +57,6 @@
     [self showActivityIndicatorUntilImageShowComplete];
 
     if (self.image.imageURL) {
-        imageView.image = [UIImage imageNamed:@"placeHolder"];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSError *error;
             NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.image.imageURL] options:NSDataReadingMappedIfSafe error:&error];
@@ -70,16 +78,13 @@
             }
             if (image) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-
-                    imageView = [[UIImageView alloc]initWithImage:image];
-                    imageView.contentMode = UIViewContentModeCenter;
-                    [imageView sizeToFit];
+                    imageView.image = image;
                     self.scrollView.contentSize = image.size;
-                    imageView.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2);
-                    [self.scrollView addSubview:imageView];
+                    imageView.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2-navbarYOffset);
                     NSLog(@"scrollView contentsize width %f height %f", self.scrollView.contentSize.width, self.scrollView.contentSize.height);
                     NSLog(@"scrollView frame width %f height %f", self.scrollView.frame.size.width, self.scrollView.frame.size.height);
                     NSLog(@"imageView x: %f y: %f", imageView.frame.origin.x, imageView.frame.origin.y);
+                    NSLog(@"*************************");
                     [activityIndicator stopAnimating];
                 });
             }

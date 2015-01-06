@@ -11,7 +11,6 @@
 		AA40DF351A5B36C3002FB6AD /* HomeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA40DF341A5B36C3002FB6AD /* HomeTableViewController.m */; };
 		AA40DF381A5B3CD5002FB6AD /* CustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA40DF371A5B3CD5002FB6AD /* CustomTableViewCell.m */; };
 		AA40DF3B1A5B3D4F002FB6AD /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = AA40DF3A1A5B3D4F002FB6AD /* Image.m */; };
-		AA40DF3D1A5B43AF002FB6AD /* placeHolder.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AA40DF3C1A5B43AF002FB6AD /* placeHolder.jpg */; };
 		AA40DF431A5B5973002FB6AD /* ChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA40DF421A5B5973002FB6AD /* ChildViewController.m */; };
 		AAD923861A5C40470028A302 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD923851A5C40470028A302 /* NetworkManager.m */; };
 		AAF3EE621A5B317100892012 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF3EE611A5B317100892012 /* main.m */; };
@@ -41,7 +40,6 @@
 		AA40DF371A5B3CD5002FB6AD /* CustomTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableViewCell.m; sourceTree = "<group>"; };
 		AA40DF391A5B3D4F002FB6AD /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
 		AA40DF3A1A5B3D4F002FB6AD /* Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Image.m; sourceTree = "<group>"; };
-		AA40DF3C1A5B43AF002FB6AD /* placeHolder.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = placeHolder.jpg; sourceTree = "<group>"; };
 		AA40DF411A5B5973002FB6AD /* ChildViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildViewController.h; sourceTree = "<group>"; };
 		AA40DF421A5B5973002FB6AD /* ChildViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChildViewController.m; sourceTree = "<group>"; };
 		AAD923841A5C40470028A302 /* NetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
@@ -124,7 +122,6 @@
 				AA40DF3A1A5B3D4F002FB6AD /* Image.m */,
 				AA40DF361A5B3CD5002FB6AD /* CustomTableViewCell.h */,
 				AA40DF371A5B3CD5002FB6AD /* CustomTableViewCell.m */,
-				AA40DF3C1A5B43AF002FB6AD /* placeHolder.jpg */,
 				AAF3EE6C1A5B317100892012 /* Images.xcassets */,
 				AAF3EE6E1A5B317100892012 /* LaunchScreen.xib */,
 				AAF3EE5F1A5B317100892012 /* Supporting Files */,
@@ -249,7 +246,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAF3EE6B1A5B317100892012 /* Main.storyboard in Resources */,
-				AA40DF3D1A5B43AF002FB6AD /* placeHolder.jpg in Resources */,
 				AAF3EE701A5B317100892012 /* LaunchScreen.xib in Resources */,
 				AAF3EE6D1A5B317100892012 /* Images.xcassets in Resources */,
 			);
