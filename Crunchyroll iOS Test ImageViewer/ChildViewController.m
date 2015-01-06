@@ -11,7 +11,7 @@
 @interface ChildViewController () {
     
     UIActivityIndicatorView *activityIndicator;
-
+    UIImageView *imageView;
 }
 
 @end
@@ -20,14 +20,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     //add tap gesture for toggling nav
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleNavigationBar)];
     [self.view addGestureRecognizer:tap];
     
     [self setUpBarButtonsForNav];
     [self downloadAndShowImageAsynchronously];
-    
     
 }
 
@@ -49,7 +48,7 @@
     [self showActivityIndicatorUntilImageShowComplete];
 
     if (self.image.imageURL) {
-        self.imageView.image = [UIImage imageNamed:@"placeHolder"];
+        imageView.image = [UIImage imageNamed:@"placeHolder"];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSError *error;
             NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.image.imageURL] options:NSDataReadingMappedIfSafe error:&error];
@@ -71,8 +70,16 @@
             }
             if (image) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    self.imageView.image = image;
-                    self.scrollView.contentSize = self.imageView.frame.size;
+
+                    imageView = [[UIImageView alloc]initWithImage:image];
+                    imageView.contentMode = UIViewContentModeCenter;
+                    [imageView sizeToFit];
+                    self.scrollView.contentSize = image.size;
+                    imageView.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2);
+                    [self.scrollView addSubview:imageView];
+                    NSLog(@"scrollView contentsize width %f height %f", self.scrollView.contentSize.width, self.scrollView.contentSize.height);
+                    NSLog(@"scrollView frame width %f height %f", self.scrollView.frame.size.width, self.scrollView.frame.size.height);
+                    NSLog(@"imageView x: %f y: %f", imageView.frame.origin.x, imageView.frame.origin.y);
                     [activityIndicator stopAnimating];
                 });
             }

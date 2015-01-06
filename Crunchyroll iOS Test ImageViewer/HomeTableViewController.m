@@ -34,7 +34,7 @@
 
 - (void) showActivityIndicatorUntilDownloadComplete {
     activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    activityIndicator.center = CGPointMake(self.view.frame.size.width/2, self.navigationController.navigationBar.frame.origin.y + 10);
+    activityIndicator.center = CGPointMake(self.view.frame.size.width/2, self.navigationController.navigationBar.frame.origin.y + 3);
     [activityIndicator startAnimating];
     [self.view addSubview: activityIndicator];
 }

@@ -12,9 +12,6 @@
 @interface ChildViewController : UIViewController
 
 @property (strong, nonatomic) Image *image;
-
-@property (strong, nonatomic) IBOutlet UIImageView *imageView;
-
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @end
