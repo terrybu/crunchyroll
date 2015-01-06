@@ -27,38 +27,34 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self showActivityIndicatorUntilDownloadComplete];
+    [self showActivityIndicator];
     self.networkManager = [[NetworkManager alloc]init];
     [self.networkManager getImagesFromCrunchyrollWithDelegate: self];
 }
 
-- (void) showActivityIndicatorUntilDownloadComplete {
+- (NSCache *) imageCache {
+    if (!_imageCache)
+        _imageCache = [[NSCache alloc]init];
+    _imageCache.countLimit = 50; //maximum # of objects our cache should hold
+    return _imageCache;
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+
+#pragma mark - initial UI setup
+- (void) showActivityIndicator {
     activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     activityIndicator.center = CGPointMake(self.view.frame.size.width/2, self.navigationController.navigationBar.frame.origin.y + 3);
     [activityIndicator startAnimating];
     [self.view addSubview: activityIndicator];
 }
 
-- (void) didFinishDownloadingImagesFromCrunchyroll {
-    self.imagesArray = self.networkManager.imagesArray;
-    [self.tableView reloadData];
-    [activityIndicator stopAnimating];
-}
 
 
-//lazy instantiation
-- (NSCache *) imageCache {
-    if (!_imageCache)
-        _imageCache = [[NSCache alloc]init];
-        _imageCache.countLimit = 50; //maximum # of objects our cache should hold
-    return _imageCache;
-}
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 #pragma mark - Table view data source
 
@@ -130,8 +126,12 @@
     return cell;
 }
 
-
-
+#pragma mark - Network Manager delegate methods
+- (void) didFinishDownloadingImagesFromCrunchyroll {
+    self.imagesArray = self.networkManager.imagesArray;
+    [self.tableView reloadData];
+    [activityIndicator stopAnimating];
+}
 
 #pragma mark - Navigation
 

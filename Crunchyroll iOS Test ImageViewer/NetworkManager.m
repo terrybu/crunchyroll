@@ -11,6 +11,15 @@
 
 @implementation NetworkManager
 
+
+- (NSMutableArray *) imagesArray {
+    if (!_imagesArray) {
+        _imagesArray = [[NSMutableArray alloc]init];
+    }
+    return _imagesArray;
+}
+
+
 - (void) getImagesFromCrunchyrollWithDelegate: delegate {
     
     self.delegate = delegate;
@@ -37,13 +46,6 @@
     }];
 }
 
-//lazy instantiation
-- (NSMutableArray *) imagesArray {
-    if (!_imagesArray) {
-        _imagesArray = [[NSMutableArray alloc]init];
-    }
-    return _imagesArray;
-}
 
 - (NSString *) returnStringIfNotNull: (NSString *) key NSDictionary: (NSDictionary *) imageDictionary{
     if ([imageDictionary[key] isKindOfClass:[NSNull class]])

@@ -22,29 +22,38 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    navbarYOffset = self.navigationController.navigationBar.frame.size.height;
-    
-    activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    activityIndicator.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2 - navbarYOffset);
-    [activityIndicator startAnimating];
-    [self.view addSubview:activityIndicator];
-    
-    imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"placeHolder"]];
-    imageView.contentMode = UIViewContentModeCenter;
-    [imageView sizeToFit];
-    self.scrollView.contentSize = imageView.bounds.size;
-    imageView.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2 - navbarYOffset);
-    [self.scrollView addSubview:imageView];
+    navbarYOffset = self.navigationController.navigationBar.frame.size.height; //used for adjusting to a little offset in centering due to navbar in portrait
     
     //add tap gesture for toggling nav
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleNavigationBar)];
     [self.view addGestureRecognizer:tap];
     
     [self setUpBarButtonsForNav];
+    [self showPlaceholderUntilRealImageDownload];
+    [self showActivityIndicatorForImageLoading];
     [self downloadAndShowImageAsynchronously];
-    
 }
 
+
+#pragma mark Initial UI Setup
+- (void) showActivityIndicatorForImageLoading {
+    activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    activityIndicator.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2 - navbarYOffset);
+    [activityIndicator startAnimating];
+    [self.view addSubview:activityIndicator];
+}
+
+- (void) showPlaceholderUntilRealImageDownload {
+    imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"placeHolder"]];
+    imageView.contentMode = UIViewContentModeCenter;
+    [imageView sizeToFit];
+    self.scrollView.contentSize = imageView.bounds.size;
+    imageView.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2 - navbarYOffset);
+    [self.scrollView addSubview:imageView];
+}
+
+
+#pragma mark Navigation Bar methods
 - (void) setUpBarButtonsForNav {
     UIBarButtonItem *leftMenuButton = [[UIBarButtonItem alloc]initWithTitle:@"Menu" style:UIBarButtonItemStylePlain target:self action:@selector(goBackToParentTableView)];
     self.navigationItem.leftBarButtonItem = leftMenuButton;
@@ -55,9 +64,28 @@
     }
 }
 
+
+- (void) goBackToParentTableView {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void) showCaption {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Caption"
+                                                    message:self.image.caption
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    [alert show];
+    
+}
+
 - (void) toggleNavigationBar {
     self.navigationController.navigationBarHidden = !self.navigationController.navigationBarHidden;
 }
+
+
+
+#pragma mark Asynchronous Download Methods
 
 - (void) downloadAndShowImageAsynchronously {
     
@@ -95,6 +123,9 @@
     }
 }
 
+
+
+#pragma mark Image Alignment Methods
 - (void) positionImage: (UIImage *) image{
     self.scrollView.contentSize = image.size;
 
@@ -148,22 +179,6 @@
         imageView.center = CGPointMake(self.view.frame.size.width/2, imageView.frame.size.height/2);
     }
     
-}
-
-
-
-- (void) goBackToParentTableView {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void) showCaption {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Caption"
-                                                    message:self.image.caption
-                                                   delegate:nil
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles:nil];
-    [alert show];
-
 }
 
 - (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
