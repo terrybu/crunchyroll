@@ -2,7 +2,7 @@
 //  ChildViewController.m
 //  
 //
-//  Created by Aditya Narayan on 1/5/15.
+//  Created by Terry Bu on 1/5/15.
 //
 //
 

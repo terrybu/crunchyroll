@@ -2,7 +2,7 @@
 //  Crunchyroll_iOS_Test_ImageViewerTests.m
 //  Crunchyroll iOS Test ImageViewerTests
 //
-//  Created by Aditya Narayan on 1/5/15.
+//  Created by Terry Bu on 1/5/15.
 //  Copyright (c) 2015 TerryBuOrganization. All rights reserved.
 //
 
